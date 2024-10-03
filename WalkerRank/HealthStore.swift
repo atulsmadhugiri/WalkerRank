@@ -25,6 +25,31 @@ class HealthStore {
     }
   }
 
+  func fetchSteps() async -> Double {
+    guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)
+    else {
+      return 0
+    }
+
+    let startOfDay = Calendar.current.startOfDay(for: Date())
+    let predicate = HKQuery.predicateForSamples(
+      withStart: startOfDay,
+      end: Date(),
+      options: .strictStartDate
+    )
+
+    do {
+      let result = try await healthStore.executeStatisticsQuery(
+        quantityType: stepType,
+        predicate: predicate
+      )
+      return result.sumQuantity()?.doubleValue(for: HKUnit.count()) ?? 0
+    } catch {
+      print("Failed to fetch steps with error: \(error.localizedDescription)")
+      return 0
+    }
+  }
+
 }
 
 extension HKHealthStore {
