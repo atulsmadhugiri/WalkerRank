@@ -6,7 +6,5 @@
 	<true/>
 	<key>com.apple.developer.healthkit</key>
 	<true/>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>WalkerRank requires access to your step count data to display and analyze your walking activity.</string>
 </dict>
 </plist>
