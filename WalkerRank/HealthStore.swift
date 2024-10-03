@@ -4,24 +4,22 @@ import HealthKit
 class HealthStore {
   private let healthStore = HKHealthStore()
 
-  func requestAuthorization(completion: @escaping (Bool) -> Void) {
+  func requestAuthorization() async -> Bool {
     guard HKHealthStore.isHealthDataAvailable() else {
-      completion(false)
-      return
+      return false
     }
 
     guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)
     else {
-      completion(false)
-      return
+      return false
     }
 
-    healthStore.requestAuthorization(
-      toShare: [],
-      read: [stepType]
-    ) {
-      success, error in
-      completion(success)
+    do {
+      try await healthStore.requestAuthorization(toShare: [], read: [stepType])
+      return true
+    } catch {
+      print("Failed to request authorization: \(error.localizedDescription)")
+      return false
     }
   }
 
