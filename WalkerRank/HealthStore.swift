@@ -93,29 +93,3 @@ class HealthStore: ObservableObject {
   }
 
 }
-
-extension HKHealthStore {
-  func executeStatisticsQuery(
-    quantityType: HKQuantityType, predicate: NSPredicate
-  ) async throws -> HKStatistics {
-    try await withCheckedThrowingContinuation { continuation in
-      let query = HKStatisticsQuery(
-        quantityType: quantityType,
-        quantitySamplePredicate: predicate,
-        options: .cumulativeSum
-      ) { _, result, error in
-        if let error = error {
-          continuation.resume(throwing: error)
-        } else if let result = result {
-          continuation.resume(returning: result)
-        } else {
-          continuation.resume(
-            throwing: NSError(
-              domain: "HealthStore", code: 0,
-              userInfo: [NSLocalizedDescriptionKey: "Unknown error"]))
-        }
-      }
-      self.execute(query)
-    }
-  }
-}
