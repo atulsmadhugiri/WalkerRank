@@ -59,6 +59,34 @@ class HealthStore: ObservableObject {
     healthStore.execute(query)
   }
 
+  func startObservingStepCount() {
+    guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)
+    else {
+      return
+    }
+
+    let query = HKObserverQuery(sampleType: stepType, predicate: nil) {
+      [weak self] _, _, error in
+      if let error = error {
+        print("Error observing step count: \(error.localizedDescription)")
+        return
+      }
+      self?.fetchSteps()
+    }
+
+    healthStore.execute(query)
+
+    healthStore.enableBackgroundDelivery(for: stepType, frequency: .immediate) {
+      success, error in
+      if let error = error {
+        print(
+          "Failed to enable background delivery: \(error.localizedDescription)")
+      }
+    }
+
+    fetchSteps()
+  }
+
 }
 
 extension HKHealthStore {
