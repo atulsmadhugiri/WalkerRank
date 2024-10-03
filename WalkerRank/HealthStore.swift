@@ -1,9 +1,9 @@
 import Foundation
 import HealthKit
 
+@MainActor
 class HealthStore: ObservableObject {
-  private let healthStore = HKHealthStore()
-
+  let healthStore = HKHealthStore()
   @Published var stepCount: Double = 0
 
   func requestAuthorization() async -> Bool {
@@ -25,7 +25,7 @@ class HealthStore: ObservableObject {
     }
   }
 
-  private func fetchSteps() {
+  func fetchSteps() {
     guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)
     else {
       return
@@ -38,22 +38,27 @@ class HealthStore: ObservableObject {
       options: .strictStartDate
     )
 
-    let query = HKStatisticsQuery(
+    let query = HKStatisticsCollectionQuery(
       quantityType: stepType,
       quantitySamplePredicate: predicate,
-      options: .cumulativeSum
-    ) { [weak self] _, result, error in
-      guard let self = self else { return }
+      options: .cumulativeSum,
+      anchorDate: startOfDay,
+      intervalComponents: DateComponents(day: 1)
+    )
 
-      if let error = error {
-        print("Failed to fetch steps with error: \(error.localizedDescription)")
+    query.initialResultsHandler = { [weak self] query, results, error in
+      guard let self = self,
+        let stats = results?.statistics().first
+      else {
         return
       }
 
+      let summedSteps =
+        stats.sumQuantity()?.doubleValue(for: HKUnit.count()) ?? 0
       DispatchQueue.main.async {
-        self.stepCount =
-          result?.sumQuantity()?.doubleValue(for: HKUnit.count()) ?? 0
+        self.stepCount = summedSteps
       }
+
     }
 
     healthStore.execute(query)
