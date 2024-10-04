@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct Leaderboard: View {
+struct LeaderboardView: View {
   @State private var selectedScope: LeaderboardScope = .global
 
   var body: some View {
@@ -159,5 +159,5 @@ let cityLeaderboardEntries = [
 ]
 
 #Preview {
-  Leaderboard()
+  LeaderboardView()
 }
