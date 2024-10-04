@@ -6,6 +6,9 @@ struct RootView: View {
       ContentView().tabItem {
         Label("Steps", systemImage: "figure.walk")
       }
+      Leaderboard().tabItem {
+        Label("Leaderboard", systemImage: "trophy")
+      }
     }
   }
 }
