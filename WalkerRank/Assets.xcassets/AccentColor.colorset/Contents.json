@@ -1,6 +1,13 @@
 {
   "colors" : [
     {
+      "color" : {
+        "platform" : "universal",
+        "reference" : "labelColor"
+      },
+      "idiom" : "universal"
+    },
+    {
       "idiom" : "universal"
     }
   ],
