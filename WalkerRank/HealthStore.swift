@@ -6,25 +6,6 @@ class HealthStore: ObservableObject {
   let healthStore = HKHealthStore()
   @Published var stepCount: Double = 0
 
-  func requestAuthorization() async -> Bool {
-    guard HKHealthStore.isHealthDataAvailable() else {
-      return false
-    }
-
-    guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)
-    else {
-      return false
-    }
-
-    do {
-      try await healthStore.requestAuthorization(toShare: [], read: [stepType])
-      return true
-    } catch {
-      print("Failed to request authorization: \(error.localizedDescription)")
-      return false
-    }
-  }
-
   func fetchSteps() {
     guard let stepType = HKQuantityType.quantityType(forIdentifier: .stepCount)
     else {

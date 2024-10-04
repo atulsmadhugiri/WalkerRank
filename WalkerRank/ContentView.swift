@@ -1,8 +1,12 @@
+import HealthKitUI
 import SwiftData
 import SwiftUI
 
 struct ContentView: View {
   @StateObject private var healthStore = HealthStore()
+
+  @State var healthDataAuthenticated = false
+  @State var triggerHealthDataPrompt = false
 
   var body: some View {
     VStack {
@@ -20,11 +24,26 @@ struct ContentView: View {
       .foregroundColor(.white)
       .cornerRadius(10)
       .buttonStyle(.bordered)
-    }
-    .task {
-      let authorized = await healthStore.requestAuthorization()
-      if authorized {
-        healthStore.startObservingStepCount()
+      .onAppear {
+        if HKHealthStore.isHealthDataAvailable() {
+          triggerHealthDataPrompt.toggle()
+        }
+      }.healthDataAccessRequest(
+        store: healthStore.healthStore,
+        shareTypes: [],
+        readTypes: [HKQuantityType(.stepCount)],
+        trigger: triggerHealthDataPrompt
+      ) { result in
+        switch result {
+        case .success(_):
+          healthDataAuthenticated = true
+          Task {
+            await healthStore.startObservingStepCount()
+          }
+        case .failure(let error):
+          fatalError(
+            "An error occurred while requesting authentication: \(error)")
+        }
       }
     }
   }
