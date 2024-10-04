@@ -53,7 +53,7 @@ struct LeaderboardRow: View {
     case 3:
       return .orange
     default:
-      return .secondary
+      return .blue
     }
   }
 }

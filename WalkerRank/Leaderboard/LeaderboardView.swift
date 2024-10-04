@@ -65,42 +65,36 @@ enum LeaderboardScope: String, CaseIterable {
 let globalLeaderboardEntries = [
   LeaderboardEntry(
     profilePictureURL: URL(
-      string: "https://picsum.photos/50/50")!,
-    firstName: "Bob", stepsLastWeek: 13402, lastUpdated: "1 hour ago"),
+      string: "https://blob.sh/atul.png")!,
+    firstName: "Atul", stepsLastWeek: 13402, lastUpdated: "1 hour ago"),
   LeaderboardEntry(
     profilePictureURL: URL(
-      string: "https://picsum.photos/50/50")!,
-    firstName: "Gerald", stepsLastWeek: 12392, lastUpdated: "2 hours ago"),
+      string: "https://blob.sh/faces/002.jpg")!,
+    firstName: "Jessica", stepsLastWeek: 12392, lastUpdated: "2 hours ago"),
+  LeaderboardEntry(
+    profilePictureURL: URL(
+      string: "https://blob.sh/faces/109.jpg")!,
+    firstName: "Mitch", stepsLastWeek: 11932, lastUpdated: "2 hours ago"),
   LeaderboardEntry(
     profilePictureURL: URL(
       string:
-        "https://picsum.photos/50/50"
-    )!, firstName: "Obama", stepsLastWeek: 10239, lastUpdated: "3 hours ago"),
+        "https://blob.sh/faces/120.jpg"
+    )!, firstName: "Harper", stepsLastWeek: 8313, lastUpdated: "3 hours ago"),
+  LeaderboardEntry(
+    profilePictureURL: URL(
+      string:
+        "https://blob.sh/faces/038.jpg"
+    )!, firstName: "Sophia", stepsLastWeek: 6431, lastUpdated: "3 hours ago"),
+  LeaderboardEntry(
+    profilePictureURL: URL(
+      string:
+        "https://blob.sh/faces/031.jpg"
+    )!, firstName: "Will", stepsLastWeek: 5985, lastUpdated: "3 hours ago"),
 ]
 
-let stateLeaderboardEntries = [
-  LeaderboardEntry(
-    profilePictureURL: URL(string: "https://picsum.photos/50/50")!,
-    firstName: "Chris", stepsLastWeek: 110000, lastUpdated: "4 hours ago"),
-  LeaderboardEntry(
-    profilePictureURL: URL(string: "https://picsum.photos/50/50")!,
-    firstName: "Sam", stepsLastWeek: 105500, lastUpdated: "5 hours ago"),
-  LeaderboardEntry(
-    profilePictureURL: URL(string: "https://picsum.photos/50/50")!,
-    firstName: "Morgan", stepsLastWeek: 98000, lastUpdated: "6 hours ago"),
-]
+let stateLeaderboardEntries = globalLeaderboardEntries
 
-let cityLeaderboardEntries = [
-  LeaderboardEntry(
-    profilePictureURL: URL(string: "https://picsum.photos/50/50")!,
-    firstName: "Pat", stepsLastWeek: 94000, lastUpdated: "7 hours ago"),
-  LeaderboardEntry(
-    profilePictureURL: URL(string: "https://picsum.photos/50/50")!,
-    firstName: "Casey", stepsLastWeek: 91000, lastUpdated: "8 hours ago"),
-  LeaderboardEntry(
-    profilePictureURL: URL(string: "https://picsum.photos/50/50")!,
-    firstName: "Jamie", stepsLastWeek: 87500, lastUpdated: "9 hours ago"),
-]
+let cityLeaderboardEntries = globalLeaderboardEntries
 
 #Preview {
   LeaderboardView()
