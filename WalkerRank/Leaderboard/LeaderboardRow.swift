@@ -13,12 +13,12 @@ struct LeaderboardRow: View {
         } placeholder: {
           ProgressView()
         }
-        .frame(width: 60, height: 60)
+        .frame(width: 40, height: 40)
         .cornerRadius(16)
 
         Image(systemName: "seal.fill")
           .resizable()
-          .frame(width: 25, height: 25)
+          .frame(width: 16, height: 16)
           .foregroundColor(badgeColor(for: position))
           .overlay(
             Text("\(position)")
